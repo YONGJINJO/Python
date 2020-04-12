@@ -1,0 +1,15 @@
+li {
+  color: blue;
+  font-size: 20px;
+}
+#green_tea {
+  color : red;
+  font-size: 30px
+}
+.favorite {
+  color: green;
+  font-size: 40px
+}
+[alt="green_tea"] {
+  width: 400px;
+}
