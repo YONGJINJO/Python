@@ -82,6 +82,7 @@ class BinarySearchTree:
         node_to_delete = self.search(data)  # 삭제할 노드를 가지고 온다
         parent_node = node_to_delete.parent  # 삭제할 노드의 부모 노드
 
+        # 지우려는 노드가 자식노드가 없는 경우
         if node_to_delete.left_child is None and node_to_delete.right_child is None:
             if node_to_delete is self.root:
                 self.root = None
@@ -90,6 +91,7 @@ class BinarySearchTree:
                     parent_node.left_child = None
                 else:
                     parent_node.right_child = None
+        # 2. 지우려는 노드가 한개의 자식노드만 있는 경우
         elif node_to_delete.left_child is None or node_to_delete.right_child is None:
             if node_to_delete is self.root:
                 if node_to_delete.left_child is None:
@@ -111,6 +113,19 @@ class BinarySearchTree:
                     else:
                         parent_node.right_child = node_to_delete.right_child
                         node_to_delete.right_child.parent = parent_node
+        # 3. 지우려는 노드가 두개의 자식노드가 있는 경우
+        else:
+            successor = self.find_min(node_to_delete.right_child)
+            node_to_delete.data = successor.data
+
+            # successor 노드 트리에서 삭제
+            if successor is successor.parent.left_child:
+                successor.parent.left_child = successor.right_child
+            else:
+                successor.parent.right_child = successor.right_child
+            
+            if successor.right_child is not None:
+                successor.right_child.parent = successor.parent
 
 
 
@@ -140,5 +155,26 @@ print(bst.find_min(bst.root.right_child).data)  # root 노드의 오른쪽 부�
 
 bst.delete(5)
 bst.delete(9)
+
+bst.print_sorted_tree()
+
+bst = BinarySearchTree()
+
+# 데이터 삽입
+bst.insert(7)
+bst.insert(11)
+bst.insert(9)
+bst.insert(17)
+bst.insert(8)
+bst.insert(5)
+bst.insert(19)
+bst.insert(3)
+bst.insert(2)
+bst.insert(4)
+bst.insert(14)
+
+# 자식이 두 개 다 있는 노드 삭제
+bst.delete(7)
+bst.delete(11)
 
 bst.print_sorted_tree()
